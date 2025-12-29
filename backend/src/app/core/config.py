@@ -2,17 +2,20 @@
 Pydantic-based configuragion management for the application.
 """
 
-from typing import Any, Optional
+from pathlib import Path
+
+
+from typing import Any, Optional, List
 from pydantic import field_validator, model_validator, AnyUrl, SecretStr
 from pydantic_settings import BaseSettings, SettingsConfigDict
+
+BASE_DIR = Path(__file__).resolve().parents[4]
 
 
 class Config(BaseSettings):
     """
     Application configuration settings.
     """
-
-    model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8")
 
     # Application
     APP_NAME: str = "SpendHelm"
@@ -40,7 +43,7 @@ class Config(BaseSettings):
     RUN_MIGRATIONS: bool = True
 
     # CORS Settings
-    CORS_ALLOWED_ORIGINS: Optional[str] = None  # Comma-separated list
+    CORS_ALLOWED_ORIGINS: Optional[List[str]] = None
 
     # SECURITY
     MIN_PASSWORD_LENGTH: int = 8
@@ -89,7 +92,7 @@ class Config(BaseSettings):
             "DB_HOST": self.DB_HOST,
             "DB_USER": self.DB_USER,
             "DB_PASS": self.DB_PASS,
-            "DB_DB": self.DB_NAME,
+            "DB_NAME": self.DB_NAME,
         }
 
         def is_missing(value: Any) -> bool:
@@ -114,7 +117,7 @@ class Config(BaseSettings):
         }/{self.DB_NAME}"
 
     model_config = SettingsConfigDict(
-        env_file=".env",
+        env_file=BASE_DIR / ".env",
         env_file_encoding="utf-8",
         case_sensitive=False,
         extra="ignore",

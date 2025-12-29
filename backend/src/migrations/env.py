@@ -9,7 +9,16 @@ from sqlmodel import SQLModel
 
 from alembic import context
 
-from app.core.config import config as app_config
+from src.app.core.config import config as app_config
+
+from src.app.models import (
+    UserPreference,
+    RefreshToken,
+    User,
+    Category,
+    Expense,
+    Aggregate,
+)
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.

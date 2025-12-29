@@ -21,6 +21,7 @@ dependencies = [
     "sqlmodel>=0.0.31",
     "slowapi>=0.1.9",
     "fastapi-pagination>=0.15.4",
+    "asyncpg>=0.31.0",
 ]
 
 [dependency-groups]
