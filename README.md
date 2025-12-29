@@ -1,6 +1,4 @@
-# Project Root – `README.md`
-
-## Expense Tracker (3-Tier Architecture)
+# Expense Tracker (3-Tier Architecture)
 
 This project is a simple expense tracker application built intentionally as a **three-tier system** to demonstrate how real-world software is designed, structured, and operated.
 
