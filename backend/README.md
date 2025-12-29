@@ -1,6 +1,4 @@
-# Backend – `backend/README.md`
-
-## Backend Overview
+# Backend Overview
 
 The backend is a **RESTful API** built with **FastAPI**.
 It is responsible for authentication, expense management, reporting, and enforcing business rules.
