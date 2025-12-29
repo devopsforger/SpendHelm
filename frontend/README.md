@@ -1,6 +1,4 @@
-# Frontend – `frontend/README.md`
-
-## Frontend Overview
+# Frontend Overview
 
 The frontend is a user-facing application that allows users to record expenses, browse their spending history, and view summaries over time.
 
