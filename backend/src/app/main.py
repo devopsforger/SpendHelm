@@ -2,6 +2,7 @@
 FastAPI application.
 """
 
+import asyncio
 from collections.abc import AsyncGenerator
 from contextlib import asynccontextmanager
 
@@ -11,6 +12,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from src.app.aggregates.router import router as aggregate_router
 from src.app.auth.router import router as auth_router
 from src.app.categories.router import router as category_router
+from src.app.core.background import run_background_worker
 from src.app.core.config import config
 from src.app.core.database import get_engine, init_db
 from src.app.core.error_handlers import setup_error_handlers
@@ -32,6 +34,9 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
 
     await init_db()
     logger.info("Database connection initialised")
+
+    worker = asyncio.create_task(run_background_worker())
+    logger.info("Background worker started")
     yield
 
     logger.info(f"{config.APP_NAME} is shutting down")
