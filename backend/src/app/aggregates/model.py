@@ -2,21 +2,21 @@
 
 from __future__ import annotations
 
-from datetime import datetime, date, timezone
+import datetime as dt_mod
+from datetime import date, datetime
 from decimal import Decimal
 from uuid import UUID, uuid4
 
-from sqlmodel import (
-    SQLModel,
-    Field,
-    Column,
-)
 from sqlalchemy import (
     DateTime,
     Numeric,
     String,
     UniqueConstraint,
-    func,
+)
+from sqlmodel import (
+    Column,
+    Field,
+    SQLModel,
 )
 
 
@@ -40,16 +40,17 @@ class Aggregate(SQLModel, table=True):
     currency: str = Field(sa_column=Column(String(3), nullable=False))
 
     created_at: datetime = Field(
-        default_factory=lambda: datetime.now(timezone.utc),
+        default_factory=lambda: datetime.now(dt_mod.UTC),
         sa_column=Column(DateTime(timezone=True), nullable=False),
     )
     updated_at: datetime = Field(
+        default_factory=lambda: datetime.now(dt_mod.UTC),
         sa_column=Column(
             DateTime(timezone=True),
             nullable=False,
-            server_default=func.now(),
-            onupdate=func.now(),
-        )
+            server_default="NOW()",
+            onupdate="NOW()",
+        ),
     )
 
     __table_args__ = (

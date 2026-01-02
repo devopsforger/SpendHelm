@@ -17,7 +17,7 @@ Examples:
 
 from __future__ import annotations
 
-from typing import AsyncGenerator
+from collections.abc import AsyncGenerator
 
 from sqlalchemy import text
 from sqlalchemy.exc import OperationalError
@@ -26,7 +26,6 @@ from sqlmodel.ext.asyncio.session import AsyncSession as SQLModelAsyncSession
 from tenacity import retry, stop_after_attempt, wait_exponential
 
 from src.app.core.config import config
-
 
 # --------------------------------------------------------------------------- #
 # Engine cache – a plain module-level variable (type-ignored for PyLance)

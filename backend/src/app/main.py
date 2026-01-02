@@ -8,6 +8,7 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from src.app.aggregates.router import router as aggregate_router
 from src.app.auth.router import router as auth_router
 from src.app.categories.router import router as category_router
 from src.app.core.config import config
@@ -97,6 +98,7 @@ async def root() -> dict:
     }
 
 
+app.include_router(aggregate_router, prefix="/aggregates")
 app.include_router(auth_router, prefix="/auth")
 app.include_router(category_router, prefix="/categories")
 app.include_router(expense_router, prefix="/expenses")

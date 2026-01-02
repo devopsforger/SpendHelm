@@ -2,7 +2,8 @@
 Custom exception classes for the application with structured error codes and HTTP status codes.
 """
 
-from typing import Any, Dict, Optional
+from datetime import date
+from typing import Any
 from uuid import UUID
 
 from fastapi import status
@@ -24,7 +25,7 @@ class BaseAppException(Exception):
         message: str,
         error_code: str,
         status_code: int,
-        details: Dict[str, Any] | None = None,
+        details: dict[str, Any] | None = None,
     ):
         self.message = message
         self.error_code = error_code
@@ -40,7 +41,7 @@ class ValidationException(BaseAppException):
         self,
         message: str,
         error_code: str,
-        validation_errors: Dict[str, Any] | None = None,
+        validation_errors: dict[str, Any] | None = None,
     ):
         super().__init__(
             message=message,
@@ -110,7 +111,7 @@ class InternalServerException(BaseAppException):
     """Exception for unexpected server errors."""
 
     def __init__(
-        self, message: str, error_code: str, details: Dict[str, Any] | None = None
+        self, message: str, error_code: str, details: dict[str, Any] | None = None
     ):
         super().__init__(
             message=message,
@@ -542,4 +543,28 @@ class PreferenceCurrencyInvalidException(ValidationException):
             message="Invalid currency code in preferences",
             error_code="PREFERENCE_CURRENCY_INVALID",
             validation_errors={"currency": currency},
+        )
+
+
+# ── Aggregate Exceptions ─────────────────────────────────────────────
+class AggregateNotFoundException(NotFoundException):
+    """Aggregate not found exception"""
+
+    def __init__(self, user_id: Any, period_type: str, period_start: date):
+        identifier = f"user={user_id}, period={period_type}, start={period_start}"
+        super().__init__(
+            resource="Aggregate",
+            identifier=identifier,
+            error_code="AGGREGATE_NOT_FOUND",
+        )
+
+
+class InvalidPeriodTypeException(ValidationException):
+    """Invalid period type for aggregation"""
+
+    def __init__(self, period_type: str):
+        super().__init__(
+            message="Invalid period type",
+            error_code="AGGREGATE_PERIOD_INVALID",
+            validation_errors={"period_type": period_type},
         )

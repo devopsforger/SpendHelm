@@ -14,8 +14,8 @@ from src.app.categories.model import Category
 from src.app.core.config import config as app_config
 from src.app.expenses.model import Expense
 from src.app.user_preferences.model import UserPreference
+from src.app.aggregates.model import Aggregate
 from src.app.models import (
-    Aggregate,
     RefreshToken,
 )
 
