@@ -16,6 +16,7 @@ from src.app.core.error_handlers import setup_error_handlers
 from src.app.core.logger import configure_logging, get_logger
 from src.app.core.middleware import setup_middleware
 from src.app.expenses.router import router as expense_router
+from src.app.user_preferences.router import router as user_preferences_router
 
 logger = get_logger()
 
@@ -99,3 +100,4 @@ async def root() -> dict:
 app.include_router(auth_router, prefix="/auth")
 app.include_router(category_router, prefix="/categories")
 app.include_router(expense_router, prefix="/expenses")
+app.include_router(user_preferences_router, prefix="/preferences")

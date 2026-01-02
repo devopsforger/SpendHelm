@@ -520,3 +520,26 @@ class ExpenseCategoryMismatchException(PermissionDeniedException):
             action="assign",
             resource=f"category {category_id}",
         )
+
+
+# ── User Preferences Exceptions ──────────────────────────────────────
+class PreferenceNotFoundException(NotFoundException):
+    """User preference not found exception"""
+
+    def __init__(self, user_id: Any):
+        super().__init__(
+            resource="UserPreference",
+            identifier=str(user_id),
+            error_code="PREFERENCE_NOT_FOUND",
+        )
+
+
+class PreferenceCurrencyInvalidException(ValidationException):
+    """Invalid currency in preferences"""
+
+    def __init__(self, currency: str):
+        super().__init__(
+            message="Invalid currency code in preferences",
+            error_code="PREFERENCE_CURRENCY_INVALID",
+            validation_errors={"currency": currency},
+        )
