@@ -1,18 +1,20 @@
+"""Expense model definition."""
+
 from __future__ import annotations
 
-from datetime import datetime, date, timezone
+import datetime as dt_mod
+from datetime import date, datetime
 from decimal import Decimal
-from typing import Optional
 from uuid import UUID, uuid4
 
-from sqlmodel import SQLModel, Field, Relationship, Column, func
 from sqlalchemy import (
     DateTime,
+    Index,
     Numeric,
     String,
     UniqueConstraint,
-    Index,
 )
+from sqlmodel import Column, Field, Relationship, SQLModel
 
 
 class Expense(SQLModel, table=True):
@@ -42,20 +44,25 @@ class Expense(SQLModel, table=True):
     is_deleted: bool = Field(default=False, nullable=False)
 
     created_at: datetime = Field(
-        default_factory=lambda: datetime.now(timezone.utc),
+        default_factory=lambda: datetime.now(dt_mod.UTC),
         sa_column=Column(DateTime(timezone=True), nullable=False),
     )
     updated_at: datetime = Field(
+        default_factory=lambda: datetime.now(dt_mod.UTC),
         sa_column=Column(
             DateTime(timezone=True),
             nullable=False,
-            server_default=func.now(),
-            onupdate=func.now(),
-        )
+            server_default="NOW()",
+            onupdate="NOW()",
+        ),
     )
 
-    user: "User" = Relationship(back_populates="expenses", sa_relationship={"argument": "user"})
-    category: "Category" = Relationship(back_populates="expenses", sa_relationship={"argument": "category"})
+    user: "User" = Relationship(
+        back_populates="expenses", sa_relationship={"argument": "user"}
+    )
+    category: "Category" = Relationship(
+        back_populates="expenses", sa_relationship={"argument": "category"}
+    )
 
     __table_args__ = (
         UniqueConstraint("user_id", "request_id", name="uq_expense_idempotency"),

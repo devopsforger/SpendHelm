@@ -12,9 +12,9 @@ from sqlmodel import SQLModel
 from src.app.auth.model import User
 from src.app.categories.model import Category
 from src.app.core.config import config as app_config
+from src.app.expenses.model import Expense
 from src.app.models import (
     Aggregate,
-    Expense,
     RefreshToken,
     UserPreference,
 )

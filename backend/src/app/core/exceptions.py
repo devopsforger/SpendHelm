@@ -1,7 +1,10 @@
 """
-Custom exception classes for the application with structured error codes and HTTP status codes."""
+Custom exception classes for the application with structured error codes and HTTP status codes.
+"""
 
 from typing import Any, Dict, Optional
+from uuid import UUID
+
 from fastapi import status
 
 
@@ -21,7 +24,7 @@ class BaseAppException(Exception):
         message: str,
         error_code: str,
         status_code: int,
-        details: Optional[Dict[str, Any]] = None,
+        details: Dict[str, Any] | None = None,
     ):
         self.message = message
         self.error_code = error_code
@@ -37,7 +40,7 @@ class ValidationException(BaseAppException):
         self,
         message: str,
         error_code: str,
-        validation_errors: Optional[Dict[str, Any]] = None,
+        validation_errors: Dict[str, Any] | None = None,
     ):
         super().__init__(
             message=message,
@@ -93,7 +96,7 @@ class DatabaseException(BaseAppException):
     """Exception for database-related errors."""
 
     def __init__(
-        self, message: str, error_code: str, original_error: Optional[str] = None
+        self, message: str, error_code: str, original_error: str | None = None
     ):
         super().__init__(
             message=message,
@@ -107,7 +110,7 @@ class InternalServerException(BaseAppException):
     """Exception for unexpected server errors."""
 
     def __init__(
-        self, message: str, error_code: str, details: Optional[Dict[str, Any]] = None
+        self, message: str, error_code: str, details: Dict[str, Any] | None = None
     ):
         super().__init__(
             message=message,
@@ -161,7 +164,7 @@ class InvalidEmailFormatException(ValidationException):
 class InvalidPasswordException(ValidationException):
     """Invalid password exception"""
 
-    def __init__(self, requirement: str, actual: Optional[str] = None):
+    def __init__(self, requirement: str, actual: str | None = None):
         validation_errors = {"password": requirement}
         if actual:
             validation_errors["actual"] = actual
@@ -461,4 +464,59 @@ class TagNotFoundException(NotFoundException):
     def __init__(self, tag_id: Any):
         super().__init__(
             resource="Tag", identifier=str(tag_id), error_code="TAG_NOT_FOUND"
+        )
+
+
+# ── Expense Exceptions ───────────────────────────────────────────────
+class ExpenseNotFoundException(NotFoundException):
+    """Expense not found exception"""
+
+    def __init__(self, expense_id: Any):
+        super().__init__(
+            resource="Expense",
+            identifier=str(expense_id),
+            error_code="EXPENSE_NOT_FOUND",
+        )
+
+
+class ExpenseDateInFutureException(ValidationException):
+    """Expense date is in the future"""
+
+    def __init__(self, expense_date: str):
+        super().__init__(
+            message="Expense date cannot be in the future",
+            error_code="EXPENSE_DATE_IN_FUTURE",
+            validation_errors={"expense_date": expense_date},
+        )
+
+
+class ExpenseCurrencyInvalidException(ValidationException):
+    """Invalid currency code"""
+
+    def __init__(self, currency: str):
+        super().__init__(
+            message="Invalid currency code",
+            error_code="EXPENSE_CURRENCY_INVALID",
+            validation_errors={"currency": currency},
+        )
+
+
+class ExpenseAmountInvalidException(ValidationException):
+    """Expense amount is invalid (e.g., negative or zero)"""
+
+    def __init__(self, amount: str):
+        super().__init__(
+            message="Expense amount must be greater than zero",
+            error_code="EXPENSE_AMOUNT_INVALID",
+            validation_errors={"amount": amount},
+        )
+
+
+class ExpenseCategoryMismatchException(PermissionDeniedException):
+    """User attempted to assign a category they don't have access to"""
+
+    def __init__(self, category_id: UUID):
+        super().__init__(
+            action="assign",
+            resource=f"category {category_id}",
         )
