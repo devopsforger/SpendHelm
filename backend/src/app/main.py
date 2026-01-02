@@ -9,6 +9,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from src.app.auth.router import router as auth_router
+from src.app.categories.router import router as category_router
 from src.app.core.config import config
 from src.app.core.database import get_engine, init_db
 from src.app.core.error_handlers import setup_error_handlers
@@ -95,3 +96,4 @@ async def root() -> dict:
 
 
 app.include_router(auth_router, prefix="/auth")
+app.include_router(category_router, prefix="/categories")

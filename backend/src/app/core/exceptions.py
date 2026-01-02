@@ -416,6 +416,16 @@ class CategoryNameAlreadyExistsException(DuplicateResourceException):
         )
 
 
+class CategoryNameConflictException(ResourceConflictException):
+    """Raised when a category name already exists for a given user scope."""
+
+    def __init__(self, name: str):
+        super().__init__(
+            resource="category",
+            constraint=f"name '{name}' already exists in user or default scope",
+        )
+
+
 class CategoryNotFoundException(NotFoundException):
     """Category not found exception"""
 

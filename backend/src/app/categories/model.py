@@ -2,15 +2,16 @@
 
 from __future__ import annotations
 
-from datetime import datetime, timezone
+import datetime as dt_mod
+from datetime import datetime
 from uuid import UUID, uuid4
 
-from sqlmodel import SQLModel, Field, Relationship, Column, func
 from sqlalchemy import (
     DateTime,
     String,
     UniqueConstraint,
 )
+from sqlmodel import Column, Field, Relationship, SQLModel
 
 
 class Category(SQLModel, table=True):
@@ -31,16 +32,17 @@ class Category(SQLModel, table=True):
     is_default: bool = Field(default=False, nullable=False)
 
     created_at: datetime = Field(
-        default_factory=lambda: datetime.now(timezone.utc),
+        default_factory=lambda: datetime.now(dt_mod.UTC),
         sa_column=Column(DateTime(timezone=True), nullable=False),
     )
     updated_at: datetime = Field(
+        default_factory=lambda: datetime.now(dt_mod.UTC),
         sa_column=Column(
             DateTime(timezone=True),
             nullable=False,
-            server_default=func.now(),
-            onupdate=func.now(),
-        )
+            server_default="NOW()",
+            onupdate="NOW()",
+        ),
     )
 
     user: "User" = Relationship(

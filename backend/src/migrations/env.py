@@ -1,23 +1,22 @@
+"""Environment configuration for Alembic migrations."""
+
 import asyncio
 from logging.config import fileConfig
 
+from alembic import context
 from sqlalchemy import pool
 from sqlalchemy.engine import Connection
 from sqlalchemy.ext.asyncio import async_engine_from_config
-
 from sqlmodel import SQLModel
 
-from alembic import context
-
-from src.app.core.config import config as app_config
 from src.app.auth.model import User
-
+from src.app.categories.model import Category
+from src.app.core.config import config as app_config
 from src.app.models import (
-    UserPreference,
-    RefreshToken,
-    Category,
-    Expense,
     Aggregate,
+    Expense,
+    RefreshToken,
+    UserPreference,
 )
 
 # this is the Alembic Config object, which provides
