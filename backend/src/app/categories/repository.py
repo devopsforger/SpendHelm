@@ -1,9 +1,9 @@
-# src/app/categories/repository.py
+"""Repository for managing expense categories in the database."""
 
 from uuid import UUID
 
 from sqlalchemy.exc import IntegrityError, SQLAlchemyError
-from sqlmodel import and_, func, select
+from sqlmodel import and_, select
 from sqlmodel.ext.asyncio.session import AsyncSession
 
 from src.app.categories.model import Category
