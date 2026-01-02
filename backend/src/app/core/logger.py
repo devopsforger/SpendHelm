@@ -45,6 +45,26 @@ REQUEST_FORMAT = (
 )
 
 
+def request_formatter(record):
+    """
+    Custom formatter for request logs.
+    """
+    extra = record["extra"]
+
+    duration = extra.get("duration", "-")
+
+    return (
+        f"{record['time']:YYYY-MM-DD HH:mm:ss.SSS} | "
+        f"{record['level'].name:<8} | "
+        f"{record['name']}:{record['function']}:{record['line']} | "
+        f"req_id={extra['request_id']} | "
+        f"{extra.get('method', '-')} {extra.get('path', '-')} | "
+        f"status={extra.get('status_code', '-')} | "
+        f"duration={duration}s | "
+        f"{record['message']}\n"
+    )
+
+
 # ---------------------------------------------------------------------
 # Configuration
 # ---------------------------------------------------------------------
@@ -70,6 +90,7 @@ def configure_logging() -> None:
         enqueue=True,
         backtrace=config.DEBUG_MODE,
         diagnose=config.DEBUG_MODE,
+        filter=lambda record: "request_id" not in record["extra"],
     )
 
     logger.add(
@@ -82,6 +103,7 @@ def configure_logging() -> None:
         enqueue=True,
         backtrace=config.DEBUG_MODE,
         diagnose=config.DEBUG_MODE,
+        filter=lambda record: "request_id" not in record["extra"],
     )
 
     # -----------------------------------------------------------------
@@ -90,7 +112,7 @@ def configure_logging() -> None:
     logger.add(
         sys.stdout,
         level=config.LOG_LEVEL,
-        format=REQUEST_FORMAT,
+        format=request_formatter,
         enqueue=True,
         filter=lambda record: "request_id" in record["extra"],
     )
@@ -98,7 +120,7 @@ def configure_logging() -> None:
     logger.add(
         LOG_DIR / "requests.log",
         level=config.LOG_LEVEL,
-        format=REQUEST_FORMAT,
+        format=request_formatter,
         rotation="10 MB",
         retention="14 days",
         compression="zip",

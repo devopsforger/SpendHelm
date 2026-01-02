@@ -36,4 +36,4 @@ class RefreshToken(SQLModel, table=True):
         sa_column=Column(DateTime(timezone=True), nullable=False),
     )
 
-    user: "User" = Relationship(back_populates="refresh_tokens")
+    user: "User" = Relationship(back_populates="refresh_tokens", sa_relationship={"argument": "user"})

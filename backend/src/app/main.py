@@ -2,17 +2,18 @@
 FastAPI application.
 """
 
+from collections.abc import AsyncGenerator
 from contextlib import asynccontextmanager
-from typing import AsyncGenerator
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from src.app.auth.router import router as auth_router
 from src.app.core.config import config
-from src.app.core.logger import get_logger, configure_logging
-from src.app.core.database import init_db, get_engine
-from src.app.core.middleware import setup_middleware
+from src.app.core.database import get_engine, init_db
 from src.app.core.error_handlers import setup_error_handlers
+from src.app.core.logger import configure_logging, get_logger
+from src.app.core.middleware import setup_middleware
 
 logger = get_logger()
 
@@ -91,3 +92,6 @@ async def root() -> dict:
         "redoc": "/redoc" if config.DEBUG_MODE else None,
         "openapi": "/openapi.json" if config.DEBUG_MODE else None,
     }
+
+
+app.include_router(auth_router, prefix="/auth")

@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 from datetime import datetime, timezone
-from typing import Optional, List
 from uuid import UUID, uuid4
 
 from sqlmodel import SQLModel, Field, Relationship, Column, func
@@ -21,7 +20,7 @@ class Category(SQLModel, table=True):
 
     id: UUID = Field(default_factory=uuid4, primary_key=True)
 
-    user_id: Optional[UUID] = Field(
+    user_id: UUID | None = Field(
         foreign_key="users.id",
         nullable=True,
         index=True,
@@ -44,8 +43,12 @@ class Category(SQLModel, table=True):
         )
     )
 
-    user: Optional["User"] = Relationship(back_populates="categories")
-    expenses: List["Expense"] = Relationship(back_populates="category")
+    user: "User" = Relationship(
+        back_populates="categories", sa_relationship={"argument": "user"}
+    )
+    expenses: list["Expense"] = Relationship(
+        back_populates="category", sa_relationship={"argument": "expenses"}
+    )
 
     __table_args__ = (
         UniqueConstraint("user_id", "name", name="uq_category_user_name"),

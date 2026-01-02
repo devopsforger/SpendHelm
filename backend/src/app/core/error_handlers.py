@@ -29,6 +29,13 @@ async def base_app_exception_handler(request: Request, exc: BaseAppException):
     request_id = getattr(request.state, "request_id", None) or uuid.uuid4().hex[:12]
     error_id = uuid.uuid4().hex[:12]
 
+    log = logger.bind(
+        request_id=request_id,
+        path=request.url.path,
+        method=request.method,
+        client_ip=request.client.host if request.client else None,
+    )
+
     error_detail = ErrorDetail(
         code=exc.error_code,
         message=exc.message,
@@ -43,16 +50,18 @@ async def base_app_exception_handler(request: Request, exc: BaseAppException):
     )
 
     # Log appropriately based on status code
-    log_method = logger.error if exc.status_code >= 500 else logger.warning
+    log_method = log.error if exc.status_code >= 500 else log.warning
     log_method(
         "Business exception",
         error_code=exc.error_code,
         status_code=exc.status_code,
         error_id=error_id,
-        path=request.url.path,
-        method=request.method,
+        error={
+            "code": exc.error_code,
+            "message": exc.message,
+            "details": exc.details,
+        },
         user_id=getattr(request.state, "user_id", None),
-        client_ip=request.client.host if request.client else None,
         details=exc.details,
         exc_info=exc.status_code >= 500,
     )

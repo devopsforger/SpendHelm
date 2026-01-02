@@ -38,4 +38,6 @@ class UserPreference(SQLModel, table=True):
         )
     )
 
-    user: "User" = Relationship(back_populates="preferences")
+    user: "User" = Relationship(
+        back_populates="preferences", sa_relationship={"argument": "user_preferences"}
+    )

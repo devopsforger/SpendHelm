@@ -33,7 +33,7 @@ class Expense(SQLModel, table=True):
 
     expense_date: date = Field(nullable=False, index=True)
 
-    note: Optional[str] = Field(sa_column=Column(String(255)))
+    note: str | None = Field(sa_column=Column(String(255)))
 
     # Idempotency
     request_id: UUID = Field(nullable=False)
@@ -54,8 +54,8 @@ class Expense(SQLModel, table=True):
         )
     )
 
-    user: "User" = Relationship(back_populates="expenses")
-    category: "Category" = Relationship(back_populates="expenses")
+    user: "User" = Relationship(back_populates="expenses", sa_relationship={"argument": "user"})
+    category: "Category" = Relationship(back_populates="expenses", sa_relationship={"argument": "category"})
 
     __table_args__ = (
         UniqueConstraint("user_id", "request_id", name="uq_expense_idempotency"),

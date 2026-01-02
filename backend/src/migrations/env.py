@@ -10,11 +10,11 @@ from sqlmodel import SQLModel
 from alembic import context
 
 from src.app.core.config import config as app_config
+from src.app.auth.model import User
 
 from src.app.models import (
     UserPreference,
     RefreshToken,
-    User,
     Category,
     Expense,
     Aggregate,
