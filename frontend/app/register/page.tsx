@@ -18,7 +18,7 @@ interface FeatureItemProps {
 function FeatureItem({ text }: FeatureItemProps) {
   return (
     <div className="flex items-center gap-3">
-      <div className="w-5 h-5 bg-linear-to-br from-[#F14926] to-[#e63e1b] rounded-full flex items-center justify-center flex-shrink-0 shadow-sm">
+      <div className="w-5 h-5 bg-linear-to-br from-[#F14926] to-[#e63e1b] rounded-full flex items-center justify-center shrink-0 shadow-sm">
         <Check className="w-3 h-3 text-white" />
       </div>
       <span className="text-gray-300">{text}</span>
@@ -109,7 +109,7 @@ export default function RegisterPage() {
             {error && (
               <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
                 <div className="flex">
-                  <div className="flex-shrink-0">
+                  <div className="shrink-0">
                     <svg className="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
                       <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
                     </svg>
