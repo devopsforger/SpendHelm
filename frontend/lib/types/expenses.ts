@@ -37,3 +37,17 @@ export interface ExpenseFormProps {
   onCancel: () => void;
   isLoading: boolean;
 }
+
+export interface ExpenseFilters {
+  searchQuery: string;
+  categoryFilter: string;
+  sortOrder: string;
+}
+
+export interface EditExpenseFormData {
+  amount: string;
+  currency: string;
+  category: string;
+  date: string;
+  note: string;
+}

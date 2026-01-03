@@ -107,7 +107,7 @@ export default function ExpenseForm({
         <Button
           type="submit"
           disabled={isLoading || !formData.amount || !formData.category || !formData.date}
-          className="flex-1 bg-gradient-to-r from-[#551931] to-[#7a2547] hover:from-[#6b2040] hover:to-[#8a2c52] text-white h-11 shadow-md hover:shadow-lg transition-all"
+          className="flex-1 bg-linear-to-r from-[#551931] to-[#7a2547] hover:from-[#6b2040] hover:to-[#8a2c52] text-white h-11 shadow-md hover:shadow-lg transition-all"
         >
           {isLoading ? 'Saving...' : expense ? 'Update Expense' : 'Add Expense'}
         </Button>
