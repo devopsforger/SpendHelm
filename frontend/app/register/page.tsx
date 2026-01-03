@@ -18,7 +18,7 @@ interface FeatureItemProps {
 function FeatureItem({ text }: FeatureItemProps) {
   return (
     <div className="flex items-center gap-3">
-      <div className="w-5 h-5 bg-gradient-to-br from-[#F14926] to-[#e63e1b] rounded-full flex items-center justify-center flex-shrink-0 shadow-sm">
+      <div className="w-5 h-5 bg-linear-to-br from-[#F14926] to-[#e63e1b] rounded-full flex items-center justify-center flex-shrink-0 shadow-sm">
         <Check className="w-3 h-3 text-white" />
       </div>
       <span className="text-gray-300">{text}</span>
@@ -87,7 +87,7 @@ export default function RegisterPage() {
           {/* Mobile Logo */}
           <div className="lg:hidden mb-8">
             <Link href="/" className="flex items-center gap-2 justify-center mb-8">
-              <div className="w-8 h-8 bg-gradient-to-br from-[#551931] to-[#7a2547] rounded-lg flex items-center justify-center shadow-sm">
+              <div className="w-8 h-8 bg-linear-to-br from-[#551931] to-[#7a2547] rounded-lg flex items-center justify-center shadow-sm">
                 <Wallet className="w-4 h-4 text-white" />
               </div>
               <span className="text-xl font-semibold text-[#101828] tracking-tight">SpendHelm</span>

@@ -58,7 +58,7 @@ export default function MobileMenu({ user, currentPageName, onLogout }: MobileMe
         {/* User Info */}
         <div className="my-4 p-4 bg-gray-50 rounded-lg">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 bg-gradient-to-br from-[#551931]/20 to-[#7a2547]/20 rounded-full flex items-center justify-center">
+            <div className="w-8 h-8 bg-linear-to-br from-[#551931]/20 to-[#7a2547]/20 rounded-full flex items-center justify-center">
               <span className="text-sm font-medium text-[#551931]">
                 {user?.full_name?.charAt(0) || user?.email?.charAt(0) || 'U'}
               </span>

@@ -19,7 +19,7 @@ export default function Sidebar({ user, currentPageName, onLogout }: SidebarProp
       <div className="flex flex-col h-full">
         {/* Logo */}
         <div className="flex items-center gap-2 px-6 py-5 border-b border-gray-100">
-          <div className="w-8 h-8 bg-gradient-to-br from-[#551931] to-[#7a2547] rounded-lg flex items-center justify-center shadow-sm">
+          <div className="w-8 h-8 bg-linear-to-br from-[#551931] to-[#7a2547] rounded-lg flex items-center justify-center shadow-sm">
             <Wallet className="w-4 h-4 text-white" />
           </div>
           <span className="text-xl font-semibold text-[#101828] tracking-tight">SpendHelm</span>
@@ -47,7 +47,7 @@ export default function Sidebar({ user, currentPageName, onLogout }: SidebarProp
         {/* User & Logout */}
         <div className="p-4 border-t border-gray-100">
           <div className="flex items-center gap-3 px-3 py-2 mb-2">
-            <div className="w-8 h-8 bg-gradient-to-br from-[#551931]/20 to-[#7a2547]/20 rounded-full flex items-center justify-center">
+            <div className="w-8 h-8 bg-linear-to-br from-[#551931]/20 to-[#7a2547]/20 rounded-full flex items-center justify-center">
               <span className="text-sm font-medium text-[#551931]">
                 {user?.full_name?.charAt(0) || user?.email?.charAt(0) || 'U'}
               </span>
